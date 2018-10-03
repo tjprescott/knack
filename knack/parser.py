@@ -117,7 +117,7 @@ class CLICommandParser(argparse.ArgumentParser):
                                                   cli_help=self.cli_help)
             command_parser.cli_ctx = self.cli_ctx
             command_validator = metadata.validator
-            argument_validators = []
+            argument_validators = {}
             argument_groups = {}
             for arg in metadata.arguments.values():
 
@@ -127,7 +127,7 @@ class CLICommandParser(argparse.ArgumentParser):
                     continue
 
                 if arg.validator:
-                    argument_validators.append(arg.validator)
+                    argument_validators[arg.type.settings['dest']] = arg.validator
                 if arg.arg_group:
                     try:
                         group = argument_groups[arg.arg_group]

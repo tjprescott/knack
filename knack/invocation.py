@@ -86,7 +86,7 @@ class CommandInvoker(object):
             pass
 
     def _validate_arg_level(self, ns, **_):  # pylint: disable=no-self-use
-        for validator in getattr(ns, '_argument_validators', []):
+        for validator in getattr(ns, '_argument_validators', {}).values():
             validator(ns)
         try:
             delattr(ns, '_argument_validators')

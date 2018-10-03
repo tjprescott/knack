@@ -92,6 +92,17 @@ class CLICommand(object):  # pylint:disable=too-many-instance-attributes
     def execute(self, **kwargs):
         return self(**kwargs)
 
+    def validate_arg(self, dest, namespace):
+        argument = self.arguments.get(dest)
+        if argument:
+            validator = argument.type.settings.get('validator', None)
+            if validator:
+                if hasattr(namespace, dest):
+                    validator(self, namespace)
+
+    def validate_command(self, namespace):
+        pass
+
     def __call__(self, *args, **kwargs):
 
         cmd_args = args[0]
